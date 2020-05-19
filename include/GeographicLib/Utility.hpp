@@ -547,6 +547,8 @@ namespace GeographicLib {
       static void readarray(std::istream& str, std::vector<IntT>& array) {
       if (array.size() > 0)
         readarray<ExtT, IntT, bigendp>(str, &array[0], array.size());
+
+     
     }
 
     /**
@@ -651,6 +653,19 @@ namespace GeographicLib {
      **********************************************************************/
     static int set_digits(int ndigits = 0);
 
+    static std::string getEnv(const char* env)
+    {
+        std::string envVariable;
+        size_t bufferSize;
+        getenv_s(&bufferSize, nullptr, 0, "GEOGRAPHICLIB_GEOID_PATH");
+        if (bufferSize > 0)
+        {
+            auto buffer = std::make_unique<char[]>(bufferSize);
+            envVariable = getenv_s(&bufferSize, buffer.get(), bufferSize, "GEOGRAPHICLIB_GEOID_PATH");
+        }
+        return envVariable;
+    }
+
   };
 
   /**
@@ -696,6 +711,8 @@ namespace GeographicLib {
     }
     throw GeographicErr("Cannot decode " + t + " as a bool");
   }
+
+
 
 } // namespace GeographicLib
 

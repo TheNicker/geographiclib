@@ -487,15 +487,12 @@ namespace GeographicLib {
 
   string Geoid::DefaultGeoidPath() {
     string path;
-    char* geoidpath = getenv("GEOGRAPHICLIB_GEOID_PATH");
-    if (geoidpath)
-      path = string(geoidpath);
-    if (!path.empty())
-      return path;
-    char* datapath = getenv("GEOGRAPHICLIB_DATA");
-    if (datapath)
-      path = string(datapath);
-    return (!path.empty() ? path : string(GEOGRAPHICLIB_DATA)) + "/geoids";
+    string geoidpath = Utility::getEnv("GEOGRAPHICLIB_GEOID_PATH");
+    if (!geoidpath.empty())
+        return geoidpath;
+
+    std::string datapath = Utility::getEnv("GEOGRAPHICLIB_DATA");
+    return (!datapath.empty() ? datapath : string(GEOGRAPHICLIB_DATA)) + "/geoids";
   }
 
   string Geoid::DefaultGeoidName() {

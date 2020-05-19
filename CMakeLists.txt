@@ -9,6 +9,8 @@ if (PROJECT_VERSION_PATCH GREATER 0)
   set (PROJECT_VERSION "${PROJECT_VERSION}.${PROJECT_VERSION_PATCH}")
 endif ()
 
+
+
 if (DEFINED CPACK_PACKAGE_VERSION_COUNT)
 
   # majic (version 0.1.9 and later) invokes cmake defining, e.g.,
@@ -240,7 +242,7 @@ include (CheckCXXCompilerFlag)
 if (MSVC)
   string (REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   # Turn on parallel builds for Visual Studio
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /MP")
+  #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /MP")
 else ()
   set (FLOAT_CONVERSION_FLAG "-Wfloat-conversion")
   check_cxx_compiler_flag (${FLOAT_CONVERSION_FLAG} FLOAT_CONVERSION)
@@ -252,10 +254,10 @@ else ()
 endif ()
 if (DEVELOPER OR CONVERT_WARNINGS_TO_ERRORS)
   if (MSVC)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
-    set (CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
-    set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+    #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+    #set (CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /WX")
+    #set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+    #set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
   else ()
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
   endif ()
@@ -306,7 +308,9 @@ int main() {
 if (CXX11_MATH)
   add_definitions (-DGEOGRAPHICLIB_CXX11_MATH=1)
 else ()
-  message (FATAL_ERROR "Missing C++11 math functions")
+  add_definitions (-DGEOGRAPHICLIB_CXX11_MATH=1)
+set (CXX11_MATH 1)
+  # message (FATAL_ERROR "Missing C++11 math functions")
 endif ()
 
 # Check whether the C++11 static_assert macro is available.  This flag
@@ -320,6 +324,8 @@ int main() {
   static_assert(true, \"static assert test\");
   return 0;
 }\n" CXX11_STATIC_ASSERT)
+
+set (    CXX11_STATIC_ASSERT 1)
 if (CXX11_STATIC_ASSERT)
   add_definitions (-DGEOGRAPHICLIB_HAS_STATIC_ASSERT=1)
 else ()
@@ -419,6 +425,8 @@ if (APPLE AND APPLE_MULTIPLE_ARCHITECTURES)
   endif ()
 endif ()
 
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
 # Create a Config.h to expose system information to the compiler
 configure_file (
   include/GeographicLib/Config.h.in
@@ -490,11 +498,11 @@ add_subdirectory (src)
 add_subdirectory (include/GeographicLib)
 add_subdirectory (tools)
 add_subdirectory (man)
-add_subdirectory (doc)
-add_subdirectory (js)
-add_subdirectory (matlab)
-add_subdirectory (python/geographiclib)
-add_subdirectory (examples)
+#add_subdirectory (doc)
+#add_subdirectory (js)
+#add_subdirectory (matlab)
+#/add_subdirectory (python/geographiclib)
+#add_subdirectory (examples)
 if (MSVC AND BUILD_NETGEOGRAPHICLIB)
   if (GEOGRAPHICLIB_PRECISION EQUAL 2)
     set (NETGEOGRAPHICLIB_LIBRARIES NETGeographicLib)
