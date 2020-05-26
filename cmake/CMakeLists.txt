@@ -32,13 +32,15 @@ configure_file (project-config.cmake.in
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWER}-config.cmake" @ONLY)
 configure_file (project-config-version.cmake.in
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWER}-config-version.cmake" @ONLY)
-export (TARGETS
+
+#[[export (TARGETS
   ${PROJECT_ALL_LIBRARIES} ${TOOLS}
   FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWER}-targets.cmake")
 export (TARGETS
   ${PROJECT_ALL_LIBRARIES} ${TOOLS}
   NAMESPACE ${PROJECT_NAME}::
   FILE "${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWER}-namespace-targets.cmake")
+  ]]
 
 # geographiclib-config.cmake for the install tree.  It's installed in
 # ${INSTALL_CMAKE_DIR} and @PROJECT_ROOT_DIR@ is the relative
@@ -47,7 +49,8 @@ export (TARGETS
 if (COMMON_INSTALL_PATH)
   # Install under lib${LIB_SUFFIX} so that 32-bit and 64-bit packages
   # can be installed on a single machine.
-  set (INSTALL_CMAKE_DIR "lib${LIB_SUFFIX}/cmake/${PROJECT_NAME}")
+  set (INSTALL_CMAKE_DIR "lib${LIB_SUFFIX}/cmake/
+  ${PROJECT_NAME}")
 else ()
   set (INSTALL_CMAKE_DIR "cmake")
 endif ()

@@ -192,11 +192,12 @@ if (MSVC OR CMAKE_CONFIGURATION_TYPES)
   set (CMAKE_DEBUG_POSTFIX _d)
 endif ()
 
-if (EXISTS ${PROJECT_SOURCE_DIR}/tests/CMakeLists.txt)
+#[[if (EXISTS ${PROJECT_SOURCE_DIR}/tests/CMakeLists.txt)
   set (DEVELOPER ON)
 else ()
   set (DEVELOPER OFF)
 endif ()
+]]
 
 if (NOT MSVC)
   # Set the run time path for shared libraries for non-Windows machines.
@@ -496,8 +497,8 @@ set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 # The list of subdirectories to process
 add_subdirectory (src)
 add_subdirectory (include/GeographicLib)
-add_subdirectory (tools)
-add_subdirectory (man)
+#add_subdirectory (tools)
+#add_subdirectory (man)
 #add_subdirectory (doc)
 #add_subdirectory (js)
 #add_subdirectory (matlab)
